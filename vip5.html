@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الموسوعة التخديرية السريرية الشاملة | Comprehensive Anesthesia & ICU Workstation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0f3e46;
+      --secondary: #1a6b75;
+      --accent: #e65100;
+      --pediatric: #0288d1;
+      --emergency: #c62828;
+      --diseases: #d84315;
+      --neuro: #5e35b1;
+      --spinal: #00897b;
+      --ob: #d81b60;
+      --lap: #43a047;
+      --obesity: #455a64;
+      --vapors: #6a1b9a;
+      --last: #b71c1c;
+      --blood: #880e4f;
+      --icu: #283593;
+      --abg: #00695c;
+      --organs: #37474f;
+      --ai-engine: #004d40;
+      --bg: #eceff1;
+      --card-bg: #ffffff;
+      --text: #1a252f;
+      --muted: #546e7a;
+      --border: #cfd8dc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 10px; }
+    .app-container { width: 100%; max-width: 750px; background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.12); border: 1px solid var(--border); display: flex; flex-direction: column; min-height: 95vh; }
+
+    .app-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 20px; text-align: center; }
+    .app-header h1 { font-size: 20px; font-weight: 900; }
+    .app-header p { font-size: 12.5px; color: #b2dfdb; margin-top: 2px; }
+    .author-badge { display: inline-block; margin-top: 8px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #ffffff; direction: ltr; }
+
+    .tabs-wrapper { background: #e0e7e9; overflow-x: auto; white-space: nowrap; scrollbar-width: none; border-bottom: 2px solid var(--border); }
+    .tabs-wrapper::-webkit-scrollbar { display: none; }
+    .tabs { display: flex; padding: 6px 8px; gap: 5px; }
+    .tab-btn { padding: 8px 12px; border: none; background: transparent; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; border-radius: 10px; transition: all 0.2s; }
+    .tab-btn.active { background: var(--primary); color: #ffffff; box-shadow: 0 4px 8px rgba(15,62,70,0.25); }
+
+    .tab-content { display: none; padding: 16px; flex-grow: 1; animation: fadeIn 0.2s ease-in-out; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .patient-selector { background: #f8fafb; border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 14px; }
+    .row-inputs-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 3px; }
+    input[type="number"], select { width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--primary); outline: none; background: #fff; }
+    input[type="number"]:focus, select:focus { border-color: var(--secondary); }
+
+    .dose-grid { display: flex; flex-direction: column; gap: 8px; }
+    .dose-card { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; position: relative; }
+    .dose-card.general { border-right: 4px solid var(--primary); }
+    .dose-card.emergency { border-right: 4px solid var(--emergency); }
+    .dose-card.icu-card { border-right: 4px solid var(--icu); }
+    .dose-card.spinal-card { border-right: 4px solid var(--spinal); }
+    .dose-card.obesity-card { border-right: 4px solid var(--obesity); }
+    .dose-card.pediatric { border-right: 4px solid var(--pediatric); }
+    .dose-card.sedation { border-right: 4px solid #8e24aa; }
+    .dose-card.maintenance { border-right: 4px solid #00897b; }
+    .dose-card.last-card { border-right: 4px solid var(--last); }
+    .dose-card.blood-card { border-right: 4px solid var(--blood); }
+    .dose-card.case-card { border-right: 4px solid var(--diseases); }
+
+    .dose-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .drug-name { font-size: 13px; font-weight: 800; direction: ltr; text-align: right; }
+    .drug-spec { font-size: 10.5px; padding: 2px 6px; background: #eef4f5; border-radius: 4px; font-weight: 600; direction: ltr; }
+    .dose-data { display: grid; grid-template-columns: 1fr 1fr; background: #fbfcfc; border: 1px dashed var(--border); border-radius: 6px; padding: 6px 8px; font-size: 12px; gap: 4px; }
+    .data-val { font-weight: 800; direction: ltr; text-align: left; }
+    .vol-color { color: #d32f2f; }
+    .mg-color { color: #1565c0; }
+
+    .info-card { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 12px; line-height: 1.7; color: #37474f; }
+    .info-title { font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-bottom: 5px; }
+
+    .proto-box { background: #fdfefe; border: 1px solid #e0e0e0; border-radius: 8px; padding: 8px; margin-top: 6px; }
+    .proto-phase { font-weight: 800; color: var(--secondary); margin-bottom: 2px; }
+    .proto-danger { color: #c62828; font-weight: 700; }
+    .proto-safe { color: #2e7d32; font-weight: 700; }
+
+    .protocol-step { display: flex; gap: 8px; margin-bottom: 6px; font-size: 12px; line-height: 1.6; }
+    .step-num { background: var(--primary); color: #fff; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 2px; }
+    .step-danger { background: var(--emergency); color: #fff; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 2px; }
+
+    .app-footer { background: #f8fafb; border-top: 1px solid var(--border); padding: 12px; text-align: center; font-size: 11.5px; font-weight: 700; color: var(--muted); direction: ltr; }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <header class="app-header">
+    <h1>الموسوعة التخديرية السريرية الشاملة</h1>
+    <p>Comprehensive Clinical Anesthesia & ICU Master Workstation</p>
+    <div class="author-badge">By: Komail Nabeel / B.M.T Of Anesthesia & ICU</div>
+  </header>
+
+  <!-- Navigation -->
+  <div class="tabs-wrapper">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab(event, 'calc-tab')">حاسبة السيسي (GA)</button>
+      <button class="tab-btn" onclick="openTab(event, 'plan-generator-tab')">المولد التفاعلي لخطة المرض (3 مراحل)</button>
+      <button class="tab-btn" onclick="openTab(event, 'emergency-tab')">طوارئ وإنعاش شامل (Resuscitation)</button>
+      <button class="tab-btn" onclick="openTab(event, 'maintenance-tab')">الإدامة الشاملة (Maintenance Master)</button>
+      <button class="tab-btn" onclick="openTab(event, 'organ-proto-tab')">بروتوكولات الأجهزة والأمراض</button>
+      <button class="tab-btn" onclick="openTab(event, 'obesity-tab')">السمنة والـ BMI والغريدات</button>
+      <button class="tab-btn" onclick="openTab(event, 'spinal-tab')">حاسبة التخدير النصفي</button>
+      <button class="tab-btn" onclick="openTab(event, 'cases-tab')">حاسبة الكيسات المرضية</button>
+      <button class="tab-btn" onclick="openTab(event, 'vapors-tab')">الغازات الاستنشاقية (MAC)</button>
+      <button class="tab-btn" onclick="openTab(event, 'icu-tab')">العناية والإنفيوجن (ICU)</button>
+      <button class="tab-btn" onclick="openTab(event, 'abg-tab')">غازات الدم الشرياني (ABG)</button>
+      <button class="tab-btn" onclick="openTab(event, 'last-tab')">سمية الموضعي (LAST)</button>
+      <button class="tab-btn" onclick="openTab(event, 'das-tab')">طوارئ المسالك (DAS)</button>
+      <button class="tab-btn" onclick="openTab(event, 'blood-tab')">حاسبة النزف والدم (MBL)</button>
+      <button class="tab-btn" onclick="openTab(event, 'specialty-tab')">الجراحات التخصصية</button>
+      <button class="tab-btn" onclick="openTab(event, 'diseases-tab')">بروتوكولات الأمراض</button>
+      <button class="tab-btn" onclick="openTab(event, 'sedation-tab')">التهدئة (Sedation)</button>
+      <button class="tab-btn" onclick="openTab(event, 'ped-tab')">الأطفال والرضع والولدان</button>
+      <button class="tab-btn" onclick="openTab(event, 'airway-tab')">المسالك الهوائية</button>
+      <button class="tab-btn" onclick="openTab(event, 'fluid-tab')">السوائل الوريدية (4-2-1)</button>
+      <button class="tab-btn" onclick="openTab(event, 'prep-tab')">تجهيز الصالة (MSMAID)</button>
+    </div>
+  </div>
+
+  <!-- TAB 1: GA Calculator -->
+  <div id="calc-tab" class="tab-content active">
+    <div class="patient-selector">
+      <div class="row-inputs">
+        <div><label>الوزن (kg):</label><input type="number" id="main-weight" value="70" step="0.5" oninput="runCalculations()"></div>
+        <div><label>العمر التقريبي:</label>
+          <select id="age-category" onchange="syncAgeWeight()">
+            <option value="adult">بالغ (Adult)</option>
+            <option value="child">طفل (Child)</option>
+            <option value="infant">رضيع (Infant)</option>
+            <option value="neonate">حديث ولادة (Neonate)</option>
+          </select>
+        </div>
+      </div>
+      <p style="font-size: 11px; color: var(--muted);">حساب الحجوم بالسيسي (cc / ml) استناداً لتراكيز الأمبولات الصيدلانية الجاهزة.</p>
+    </div>
+    <div class="dose-grid">
+      <div class="dose-card general"><div class="dose-header"><span class="drug-name">Propofol (2 mg/kg)</span><span class="drug-spec">1% (10 mg/ml)</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="prop-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="prop-cc">--</strong></span></div></div>
+      <div class="dose-card general"><div class="dose-header"><span class="drug-name">Ketamine (1.5 mg/kg)</span><span class="drug-spec">50 mg/ml</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="ket-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="ket-cc">--</strong></span></div></div>
+      <div class="dose-card general"><div class="dose-header"><span class="drug-name">Rocuronium (0.6 mg/kg)</span><span class="drug-spec">10 mg/ml</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="roc-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="roc-cc">--</strong></span></div></div>
+      <div class="dose-card general"><div class="dose-header"><span class="drug-name">Atracurium (0.5 mg/kg)</span><span class="drug-spec">10 mg/ml</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="atra-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="atra-cc">--</strong></span></div></div>
+      <div class="dose-card emergency"><div class="dose-header"><span class="drug-name">Succinylcholine (1.5 mg/kg)</span><span class="drug-spec">50 mg/ml</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="succ-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="succ-cc">--</strong></span></div></div>
+      <div class="dose-card general"><div class="dose-header"><span class="drug-name">Fentanyl (1.5 mcg/kg)</span><span class="drug-spec">50 mcg/ml</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="fent-mcg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="fent-cc">--</strong></span></div></div>
+    </div>
+  </div>
+
+  <!-- TAB: Interactive Disease Decision Engine (NEW) -->
+  <div id="plan-generator-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--ai-engine);">
+      <span class="badge" style="background:#e0f2f1; color:var(--ai-engine);">المولد الذكي لبروتوكول المرض التخديري (3 مراحل كاملة)</span>
+      <div class="row-inputs" style="margin-top: 8px;">
+        <div>
+          <label>وزن المريض (kg):</label>
+          <input type="number" id="gen-weight" value="70" step="0.5" oninput="generateClinicalPlan()">
+        </div>
+        <div>
+          <label>اختر الحالة المرضية / التشخيص:</label>
+          <select id="gen-disease" onchange="generateClinicalPlan()">
+            <option value="healthy">مريض سليم بدون أمراض (ASA I Healthy)</option>
+            <option value="asthma">ربو قصبي وحساسية صدرية (Bronchial Asthma)</option>
+            <option value="copd">انسداد رئوي مزمن (COPD & Emphysema)</option>
+            <option value="htn">ارتفاع ضغط الدم (Hypertension)</option>
+            <option value="ihd">نقص التروية وتصلب الشرايين (IHD / CAD)</option>
+            <option value="hf">عجز وفشل القلب الشديد (Heart Failure EF &lt; 30%)</option>
+            <option value="renal">عجز كلوي مزمن وغسيل (Renal Failure / ESRD)</option>
+            <option value="liver">تشمع وقصور الكبد (Liver Cirrhosis / Failure)</option>
+            <option value="epilepsy">صرع وتشنجات (Epilepsy / Seizures)</option>
+            <option value="obese">سمنة مفرطة (Morbid Obesity BMI &gt; 40)</option>
+            <option value="full_stomach">معدة ممتلئة وطوارئ (Full Stomach / RSI)</option>
+          </select>
+        </div>
+      </div>
+      <p style="font-size: 11.5px; color: var(--muted); margin-top:4px;">يقوم المحرك السريري بحساب الجرعات وتحديد الأدوية الأفضل بالسيسي والملغرام لمراحل التخدير الثلاث بدقة.</p>
+    </div>
+
+    <!-- Output Box: Phase 1 (Induction) -->
+    <div class="info-card" style="border-top: 3px solid var(--primary);">
+      <div class="info-title">🚀 1. مرحلة التحريض والتنبيب (Induction Phase)</div>
+      <div id="plan-ind-content" style="font-size:12px; line-height:1.8;">--</div>
+    </div>
+
+    <!-- Output Box: Phase 2 (Maintenance) -->
+    <div class="info-card" style="border-top: 3px solid var(--maintenance);">
+      <div class="info-title">💤 2. مرحلة إدامة التخدير والنوم (Maintenance Phase)</div>
+      <div id="plan-maint-content" style="font-size:12px; line-height:1.8;">--</div>
+    </div>
+
+    <!-- Output Box: Phase 3 (Recovery) -->
+    <div class="info-card" style="border-top: 3px solid var(--accent);">
+      <div class="info-title">🌅 3. مرحلة الإفاقة ونزع الأنبوب (Recovery & Extubation Phase)</div>
+      <div id="plan-rec-content" style="font-size:12px; line-height:1.8;">--</div>
+    </div>
+
+    <!-- Output Box: Strict Contraindications -->
+    <div class="info-card" style="border-right: 4px solid var(--emergency); background:#fffafb;">
+      <div class="info-title" style="color:var(--emergency);">⛔ المحاذير والممنوعات الصارمة لهذه الحالة</div>
+      <div id="plan-contra-content" style="font-size:12px; line-height:1.8; color:#b71c1c;">--</div>
+    </div>
+  </div>
+
+  <!-- TAB: Comprehensive Emergency & Resuscitation Master Workstation -->
+  <div id="emergency-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--emergency);">
+      <span class="badge" style="background:#ffebee; color:var(--emergency);">الموسوعة الإنعاشية الشاملة لحالات طوارئ صالة العمليات والعناية</span>
+      <p style="font-size: 11.5px; color: var(--muted); margin-top:4px;">
+        الحساب الفوري لجرعات الإنقاذ وأدوية توقف القلب والتأق لوزن المريض: 
+        <strong style="color:var(--emergency); font-size:13.5px;"><span class="current-weight-display">70</span> kg</strong>
+      </p>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid var(--emergency);">
+      <div class="info-title">⚡ 1. بروتوكول توقف القلب والإنعاش القلبي الرئوي (Perioperative ACLS)</div>
+      <div class="dose-grid">
+        <div class="dose-card emergency">
+          <div class="dose-header"><span class="drug-name">Adrenaline (Epinephrine) IV Bolus</span><span class="drug-spec">1 mg (1:10,000 or 1:1,000)</span></div>
+          <div class="dose-data">
+            <span>البالغين: <strong class="data-val vol-color">1 mg كل 3 - 5 دقائق</strong></span>
+            <span>الأطفال (10 mcg/kg): <strong class="data-val mg-color" id="emg-adren-peds">-- mg (cc)</strong></span>
+          </div>
+          <div class="info-body" style="font-size:11px; margin-top:4px;">* يُعطى فوراً في النظم غير القابل للصدم (Asystole / PEA)، وبعد الصدمة الثانية في الرجفان البطيني (VF / pVT).</div>
+        </div>
+
+        <div class="dose-card emergency">
+          <div class="dose-header"><span class="drug-name">Amiodarone (Cordarone IV)</span><span class="drug-spec">150 mg / 3 ml Ampoule</span></div>
+          <div class="dose-data">
+            <span>الجرعة الأولى (بعد الصدمة 3): <strong class="data-val vol-color">300 mg (6 cc)</strong></span>
+            <span>الجرعة الثانية (بعد الصدمة 5): <strong class="data-val mg-color">150 mg (3 cc)</strong></span>
+          </div>
+          <div class="info-body" style="font-size:11px; margin-top:4px;">* بديله عند عدم التوفر: <strong>Lidocaine 2%</strong> (1 – 1.5 mg/kg IV بولس أولي).</div>
+        </div>
+      </div>
+      <div class="proto-box" style="margin-top:6px;">
+        <div class="proto-phase">• فحص الأسباب العكوسة التخديرية الفورية ($4Hs\ \&\ 4Ts$):</div>
+        • <strong>Hypoxia:</strong> تأكد من عدم انزياح الأنبوب الرغامي وعمل الـ O2.<br>
+        • <strong>Hypovolemia:</strong> نزف جراحي صاعق أو نقص سوائل شديد.<br>
+        • <strong>Hypo/Hyperkalemia:</strong> اضطراب شوارد مفاجئ (خاصة في الفشل الكلوي).<br>
+        • <strong>Hypothermia:</strong> انخفاض الحرارة يمنع عودة النبض.<br>
+        • <strong>Tension Pneumothorax:</strong> استرواح صدري ضاغط بعد القسطرة الوريدية المركزية أو نفخ المنظار.<br>
+        • <strong>Tamponade (Cardiac):</strong> اندحاس قلبي في جراحات الصدر والقلب.<br>
+        • <strong>Toxins:</strong> سمية المخدر الموضعي (LAST) أو جرعة مفرطة من المرخيات والغازات.<br>
+        • <strong>Thrombosis (PE/Coronary):</strong> انصمام رئوي حاد أو خثار إكليلي.
+      </div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid var(--emergency);">
+      <div class="info-title">🚨 2. بروتوكول تشنج الحنجرة الإسعافي الحاد (Severe Laryngospasm)</div>
+      <div class="protocol-step"><span class="step-danger">1</span><span><strong>إيقاف التحفيز فوراً:</strong> تنبيه الجراح لإيقاف العمل، وشفط المفرزات والدم من البلعوم بلطف.</span></div>
+      <div class="protocol-step"><span class="step-danger">2</span><span><strong>أكسجين 100% مع CPAP:</strong> إحكام القناع باليدين وإغلاق صمام الـ APL valve عند 30-40 cmH2O لتطبيق ضغط إيجابي مستمر.</span></div>
+      <div class="protocol-step"><span class="step-danger">3</span><span><strong>مناورة لارسن (Larson's Notch Maneuver):</strong> ضغط إصبعي عميق وقوي في الثلمة خلف زاوية الفك وأمام الناتئ الخشائي للأعلى والداخل.</span></div>
+      <div class="protocol-step"><span class="step-danger">4</span><span><strong>كسر التشنج بالبروبوفول:</strong> حقن <strong>Propofol (0.25 – 0.5 mg/kg)</strong> = <strong id="emg-prop-spasm" class="vol-color">-- cc</strong> وريدياً لكسر التشنج الحنجري السريع دون تثبيط كامل للتنفس.</span></div>
+      <div class="protocol-step"><span class="step-danger">5</span><span><strong>المرخي العضلي الحاسم:</strong> عند استمرار هبوط الأكسجة، إعطاء <strong>Succinylcholine</strong> (0.5 – 1.0 mg/kg IV) = <strong id="emg-succ-spasm" class="vol-color">-- cc</strong> مع تجهيز <strong>Atropine</strong> وريدي لتفادي بطء القلب.</span></div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #e65100;">
+      <div class="info-title">🫁 3. تشنج القصبات الشديد والصدر الصامت (Acute Bronchospasm)</div>
+      <div class="protocol-step"><span class="step-num">1</span><span>تعميق التخدير فوراً برفع <strong>Sevoflurane</strong> إلى 3% - 4%، أو حقن بروبوفول وريدي.</span></div>
+      <div class="protocol-step"><span class="step-num">2</span><span>بخ 8 – 10 بخات من <strong>Salbutamol (Ventolin)</strong> مباشرة في الأنبوب الرغامي عبر وصلة الـ MDI adaptor.</span></div>
+      <div class="protocol-step"><span class="step-num">3</span><span><strong>Magnesium Sulfate:</strong> إعطاء <strong>2 g IV</strong> تسريب على مدار 10-15 دقيقة (مرخي مباشر للعضلات الملساء للقصبات).</span></div>
+      <div class="protocol-step"><span class="step-num">4</span><span><strong>Hydrocortisone:</strong> 100 – 200 mg IV (لمنع الاستجابة الالتهابية المتأخرة).</span></div>
+      <div class="protocol-step"><span class="step-num">5</span><span><strong>في الحالات المعندة والحرجة:</strong> إعطاء <strong>Adrenaline IV بولس مخفف (10 – 20 mcg)</strong> أو تحت الجلد/عضلي (0.3 mg من 1:1,000).</span></div>
+      <div class="protocol-step"><span class="step-num">6</span><span><strong>تعديل جهاز التنفس:</strong> خفض معدل التنفس (RR: 6-8 bpm) وزيادة زمن الزفير ($I:E = 1:4$ أو $1:5$) لتفريغ الهواء المحبوس ومنع الـ Auto-PEEP واسترواح الصدر.</span></div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #b71c1c;">
+      <div class="info-title">⚠️ 4. الصدمة التأقية والتأق التخديري (Anaphylactic Shock)</div>
+      <div class="protocol-step"><span class="step-danger">1</span><span><strong>إيقاف المسبب المشتبه به فوراً:</strong> إيقاف أي مضاد حيوي أو مرخي أو مشتقات دم وتغيير القفازات.</span></div>
+      <div class="protocol-step"><span class="step-danger">2</span><span><strong>100% O2 وإيقاف الغازات التخديرية</strong> لمنع تفاقم هبوط الضغط الحاد وتثبيط القلب.</span></div>
+      <div class="protocol-step"><span class="step-danger">3</span><span><strong>العلاج الحاسم المنقذ للحياة (Adrenaline / Epinephrine):</strong><br>
+        • <span class="proto-safe">عضلياً (IM):</span> <strong>0.5 mg</strong> (0.5 ml من أمبول 1:1,000 غير مخفف) في الفخذ الوحشي.<br>
+        • <span class="proto-danger">وريدياً (IV بولس مخفف):</span> في حال وجود كانيولا وهبوط ضغط شديد: يُسحب 1 ml من أمبول 1 mg ويخفف بـ 9 ml سالاين (100 mcg/ml)، ويُعطى منه <strong>50 – 100 mcg (0.5 – 1.0 ml)</strong> ويُكرر كل دقيقة مع مراقبة النبض والضغط.
+      </span></div>
+      <div class="protocol-step"><span class="step-danger">4</span><span><strong>تحميل سوائل عنيف (Massive Fluid Bolus):</strong> إعطاء <strong>1 – 2 Liters</strong> من محلول بلوري متوازن دافئ تحت الضغط خلال 10 دقائق لتعويض التوسع الوعائي ونقص الحجم النسبي.</span></div>
+      <div class="protocol-step"><span class="step-danger">5</span><span><strong>الأدوية الثانوية المساندة:</strong> Hydrocortisone 200 mg IV + Chlorpheniramine 10 mg IV.</span></div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #0288d1;">
+      <div class="info-title">💨 5. الانصمام الهوائي الوريدي (Venous Air Embolism)</div>
+      <div class="protocol-step"><span class="step-num">1</span><span><strong>التشخيص السريع:</strong> هبوط حاد وفجائي في قراءة $EtCO_2$ مع هبوط ضغط وتسرع قلب ونقص أكسجة وصوت الطاحونة (Mill-wheel murmur).</span></div>
+      <div class="protocol-step"><span class="step-num">2</span><span><strong>إبلاغ الجراح فوراً:</strong> غمر حقل العمليات بالسيروم الملحي لمنع سحب المزيد من الهواء من الأوردة المفتوحة، وخفض موقع الجراحة بالنسبة للقلب.</span></div>
+      <div class="protocol-step"><span class="step-num">3</span><span><strong>إيقاف N2O فوراً</strong> وإعطاء 100% أكسجين.</span></div>
+      <div class="protocol-step"><span class="step-num">4</span><span><strong>مناورة ديورانت (Durant's Maneuver):</strong> وضع المريض على <strong>الجانب الأيسر مع خفض الرأس (Left Lateral Trendelenburg)</strong> لحبس فقاعات الهواء في قمة البطين الأيمن.</span></div>
+      <div class="protocol-step"><span class="step-num">5</span><span>شفط الهواء عبر الخط المركزي (CVC) إن كان موجوداً.</span></div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #880e4f;">
+      <div class="info-title">🩸 6. انصمام السائل الأمنيوسي والانصمام الرئوي الخثاري (AFE & Massive PE)</div>
+      <div class="info-body">
+        • <strong>بروتوكول A-OK المنقذ للحياة في AFE:</strong><br>
+        &nbsp;&nbsp;1. <strong>Atropine (0.2 – 0.4 mg IV):</strong> لكسر التشنج الوعائي الرئوي والبطء القلبي.<br>
+        &nbsp;&nbsp;2. <strong>Ondansetron (8 mg IV):</strong> لإحصار مستقبلات السيروتونين وتثبيط رد الفعل التأقي الرئوي.<br>
+        &nbsp;&nbsp;3. <strong>Ketorolac (30 mg IV):</strong> لتثبيط إنتاج الثرومبوكسان وتخثر الأوعية الدقيقة الرئوية.<br>
+        • في الانصمام الرئوي الخثاري الحاد: دعم البطين الأيمن بنورأدرينالين وتجهيز حل الخثرة (Alteplase).
+      </div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #f57c00;">
+      <div class="info-title">📌 7. استرواح الصدر الضاغط أثناء التخدير (Tension Pneumothorax)</div>
+      <div class="info-body">
+        • وخز إبرة قسطرة وريدية كبيرة (14G أو 16G) فوراً في المسافة الوربية الثانية على خط منتصف الترقوة (2nd ICS MCL) أو المسافة الوربية الخامسة على الخط الإبطي الأمامي (5th ICS AAL) أعلى حافة الضلع مباشرة، ويُتبع بوضع أنبوب تفجير صدر نظامي (Chest Tube).
+      </div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid var(--ob);">
+      <div class="info-title">🤱 8. النزف التوليدي الكارثي بعد الولادة (Postpartum Hemorrhage - PPH)</div>
+      <div class="info-body">
+        Oxytocin (3-5 IU وريدي بطيء ثم تسريب 20-40 IU) $\rightarrow$ Methergine 0.2 mg IM (ممنوع في الضغط) $\rightarrow$ Carboprost 0.25 mg IM (ممنوع في الربو) $\rightarrow$ Misoprostol 800-1000 mcg شرجياً $\rightarrow$ Tranexamic Acid (TXA 1g IV) $\rightarrow$ تفعيل MTP 1:1:1 وبالون باكري.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Comprehensive Maintenance Master Workstation -->
+  <div id="maintenance-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--maintenance);">
+      <span class="badge" style="background:#e0f2f1; color:var(--maintenance);">منظومة إدامة التخدير الشاملة (Maintenance of Anesthesia Master)</span>
+      <p style="font-size: 11.5px; color: var(--muted); margin-top:4px;">
+        الحساب الفوري لجرعات الإدامة والتوب-أب المتكررة ومضخات التنويم لوزن المريض: 
+        <strong style="color:var(--primary); font-size:13.5px;"><span class="current-weight-display">70</span> kg</strong>
+      </p>
+    </div>
+
+    <div class="info-card" style="border-top: 3px solid var(--primary);">
+      <div class="info-title">💤 1. التنويم وإدامة فقدان الوعي الوريدي (TIVA & Hypnotic Infusions)</div>
+      <div class="dose-grid">
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Propofol 1% TIVA Infusion</span><span class="drug-spec">100 mcg/kg/min (6 mg/kg/hr)</span></div>
+          <div class="dose-data"><span>الجرعة بالساعة: <strong class="data-val mg-color" id="maint-prop-mg">-- mg/hr</strong></span><span>سرعة السيرنج بمب (1%): <strong class="data-val vol-color" id="maint-prop-rate">-- ml/hr</strong></span></div>
+        </div>
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Dexmedetomidine (Precedex Infusion)</span><span class="drug-spec">0.4 mcg/kg/hr (محلول 4 mcg/ml)</span></div>
+          <div class="dose-data"><span>الجرعة بالساعة: <strong class="data-val mg-color" id="maint-dex-mcg">-- mcg/hr</strong></span><span>سرعة السيرنج بمب: <strong class="data-val vol-color" id="maint-dex-rate">-- ml/hr</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card" style="border-top: 3px solid #6a1b9a;">
+      <div class="info-title">💉 2. التسكين المستمر والدعم الأفيوني (Maintenance Analgesia)</div>
+      <div class="dose-grid">
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Fentanyl Top-up (Intermittent Bolus)</span><span class="drug-spec">0.75 mcg/kg (50 mcg/ml)</span></div>
+          <div class="dose-data"><span>جرعة الدعم: <strong class="data-val mg-color" id="maint-fent-mcg">-- mcg</strong></span><span>الحجم بالسيسي: <strong class="data-val vol-color" id="maint-fent-cc">-- cc</strong></span></div>
+        </div>
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Remifentanil Infusion</span><span class="drug-spec">0.15 mcg/kg/min (محلول 50 mcg/ml)</span></div>
+          <div class="dose-data"><span>الجرعة الدقيقة: <strong class="data-val mg-color" id="maint-remi-mcg">-- mcg/min</strong></span><span>سرعة السيرنج بمب: <strong class="data-val vol-color" id="maint-remi-rate">-- ml/hr</strong></span></div>
+        </div>
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Morphine Sulfate (Loading)</span><span class="drug-spec">0.1 mg/kg (محلول 1 mg/ml)</span></div>
+          <div class="dose-data"><span>الجرعة الموصى بها: <strong class="data-val mg-color" id="maint-morph-mg">-- mg</strong></span><span>الحجم (1 mg/ml): <strong class="data-val vol-color" id="maint-morph-cc">-- cc</strong></span></div>
+        </div>
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Ketamine (Anti-hyperalgesia)</span><span class="drug-spec">0.25 mg/kg IV Bolus</span></div>
+          <div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="maint-ket-mg">-- mg</strong></span><span>الحجم (50 mg/ml): <strong class="data-val vol-color" id="maint-ket-cc">-- cc</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card" style="border-top: 3px solid #00897b;">
+      <div class="info-title">💪 3. كافة جرعات دعم الرخاوة العضلية (Muscle Relaxants Top-ups)</div>
+      <div class="dose-grid">
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Rocuronium Top-up</span><span class="drug-spec">0.15 mg/kg (10 mg/ml)</span></div>
+          <div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="maint-roc-mg">-- mg</strong></span><span>الحجم بالسيسي: <strong class="data-val vol-color" id="maint-roc-cc">-- cc</strong></span></div>
+        </div>
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Atracurium Top-up</span><span class="drug-spec">0.1 mg/kg (10 mg/ml)</span></div>
+          <div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="maint-atra-mg">-- mg</strong></span><span>الحجم بالسيسي: <strong class="data-val vol-color" id="maint-atra-cc">-- cc</strong></span></div>
+        </div>
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Cisatracurium Top-up</span><span class="drug-spec">0.03 mg/kg (2 mg/ml)</span></div>
+          <div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="maint-cis-mg">-- mg</strong></span><span>الحجم بالسيسي: <strong class="data-val vol-color" id="maint-cis-cc">-- cc</strong></span></div>
+        </div>
+        <div class="dose-card maintenance">
+          <div class="dose-header"><span class="drug-name">Vecuronium Top-up</span><span class="drug-spec">0.02 mg/kg (1 mg/ml)</span></div>
+          <div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="maint-vec-mg">-- mg</strong></span><span>الحجم بالسيسي: <strong class="data-val vol-color" id="maint-vec-cc">-- cc</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card" style="border-top: 3px solid var(--vapors);">
+      <div class="info-title">💨 4. إدامة التخدير بالغازات والتدفق المنخفض (Low-Flow Strategy)</div>
+      • <strong>Sevoflurane:</strong> تركيز 1.5% – 2.2% | <strong>Desflurane:</strong> 4.5% – 6.5% | <strong>Isoflurane:</strong> 0.8% – 1.3%.<br>
+      • الحفاظ على التدفق المنخفض (FGF: 0.5 - 1.0 L/min) وتوازن عمق التخدير بمؤشر BIS بين 40 – 60.
+    </div>
+  </div>
+
+  <!-- TAB 2: Organ-Specific Clinical Protocols Encyclopedia -->
+  <div id="organ-proto-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--organs);">
+      <span class="badge" style="background:#cfd8dc; color:var(--organs);">موسوعة البروتوكولات التخديرية المتكاملة لكل أعضاء الجسم والحالات</span>
+      <p style="font-size: 11.5px; color: var(--muted); margin-top: 4px;">تشمل الخطة السريرية الثلاثية: التحريض (Induction)، الإدامة (Maintenance)، والإفاقة والإنعاش (Recovery & Extubation).</p>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid var(--primary);">
+      <div class="info-title">🟢 0. المريض السليم بدون أمراض مزمنة (ASA I Normal Healthy Patient)</div>
+      <div class="proto-box"><div class="proto-phase">• التحريض:</div>Pre-oxygenation $\rightarrow$ Fentanyl (1.5-2 mcg/kg) $\rightarrow$ Propofol (2 mg/kg) $\rightarrow$ Rocuronium (0.6 mg/kg) أو Atracurium (0.5 mg/kg) $\rightarrow$ تنبيب بعد 60-90 ثانية.</div>
+      <div class="proto-box"><div class="proto-phase">• الإدامة:</div>Sevoflurane (1.5 - 2.0%) في مزيج O2/Air مع توب-أب فنتانيل ومرخي عضلي كل 30-45 دقيقة.</div>
+      <div class="proto-box"><div class="proto-phase">• الإفاقة:</div>إيقاف الغاز، 100% أكسجين، إعطاء Reversal (Neostigmine 0.05 mg/kg + Atropine 0.02 mg/kg أو Sugammadex 2 mg/kg) بعد عودة التنفس، وسحب التيوب عند استعادة الوعي التام.</div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #c62828;">
+      <div class="info-title">🫀 1. فشل القلب واعتلال العضلة القلبية (Heart Failure & Low EF &lt; 30%)</div>
+      <div class="proto-box"><div class="proto-phase">• التحريض:</div><span class="proto-safe">المفضل:</span> Etomidate (0.2-0.3 mg/kg) مع فنتانيل تدريجي. ❌ ممنوع بروبوفول بجرعات عالية.</div>
+      <div class="proto-box"><div class="proto-phase">• الإدامة:</div>سيفوفلوران منخفض (&lt;1 MAC) مع تسريب أفيوني، وتجهيز النورأدرينالين والدوبوتامين مع تقنين صارم للسوائل.</div>
+      <div class="proto-box"><div class="proto-phase">• الإفاقة:</div>إفاقة هادئة؛ تفضيل Sugammadex لتجنب اضطراب النبض، والنقل للعناية القلبية المركزة.</div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #f57c00;">
+      <div class="info-title">🧪 2. مرضى الفشل الكلوي المزمن والغسيل (Renal Failure / ESRD)</div>
+      <div class="proto-box"><div class="proto-phase">• التحريض:</div>فحص البوتاسيوم (&lt;5.5 mEq/L). <span class="proto-safe">المرخي الذهبي:</span> Cisatracurium أو Atracurium. ❌ ممنوع نهائياً Succinylcholine (يرفع البوتاسيوم).</div>
+      <div class="proto-box"><div class="proto-phase">• الإدامة:</div>Sevoflurane/Desflurane. استخدام Normal Saline 0.9% وتجنب الرينغر لاكتات ومضادات الالتهاب (NSAIDs). حماية ناسور الغسيل (Fistula).</div>
+      <div class="proto-box"><div class="proto-phase">• الإفاقة:</div>التأكد التام من القوة العضلية لتفادي بقاء الشلل الرخو.</div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #fbc02d;">
+      <div class="info-title">🟡 3. مرضى تشمع وقصور الكبد (Liver Cirrhosis & Hepatic Failure)</div>
+      <div class="proto-box"><div class="proto-phase">• التحريض:</div>فحص التخثر والصفائح. بروبوفول بجرعة مخفضة مع Atracurium (إطراح هوفمان المستقل عن الكبد).</div>
+      <div class="proto-box"><div class="proto-phase">• الإدامة:</div>Isoflurane أو Desflurane للحفاظ على تروية الشريان الكبدي. الحفاظ على $MAP > 65\text{ mmHg}$، ومراقبة سكر الدم بانتظام.</div>
+      <div class="proto-box"><div class="proto-phase">• الإفاقة:</div>الحذر من تأخر الصحوة والغيبوبة الكبدية.</div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #7b1fa2;">
+      <div class="info-title">🦋 4. أمراض الغدة الدرقية (Thyroid Storm & Myxedema)</div>
+      <div class="proto-box"><div class="proto-phase">• فرط نشاط الدرق:</div>تجنب الكيتامين والأتروبين؛ تحريض ببروبوفول مع حاصرات بيتا (Esmolol) جاهزة لضبط النبض.</div>
+      <div class="proto-box"><div class="proto-phase">• خمول الدرق:</div>خفض الجرعات 50% وتدفئة صارمة لمنع هبوط الحرارة وبطء القلب.</div>
+      <div class="proto-box"><div class="proto-phase">• الإفاقة:</div>فحص حركة الحبال الصوتية بعد نزع الأنبوب للتأكد من سلامة العصب الراجع.</div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #d32f2f;">
+      <div class="info-title">⚡ 5. ورم القواتم الكظرية (Pheochromocytoma)</div>
+      <div class="proto-box"><div class="proto-phase">• التحريض:</div>إحصار ألفا أولاً قبل بيتا. بروبوفول وفنتانيل عالي الجرعة وروكورونيوم. ❌ ممنوع كيتامين وأتراكوريوم.</div>
+      <div class="proto-box"><div class="proto-phase">• الإدامة:</div>تسريب Sodium Nitroprusside أثناء لمس الورم (ارتفاع ضغط)، وتسريب Noradrenaline وسوائل بعد ربط أوردة الورم.</div>
+      <div class="proto-box"><div class="proto-phase">• الإفاقة:</div>نقل إلزامي للعناية المركزة مع مراقبة ضغط الدم الشرياني والشوارد.</div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #1976d2;">
+      <div class="info-title">💪 6. الوهن العضلي الوبيل (Myasthenia Gravis)</div>
+      <div class="proto-box"><div class="proto-phase">• الإرخاء:</div>حساسية مفرطة للمرخيات غير النازعة للاستقطاب؛ تُعطى بنسبة 10-25% فقط من الجرعة أو الاستغناء عنها بالتنبيب تحت الغاز الاستنشاقي.</div>
+      <div class="proto-box"><div class="proto-phase">• الإفاقة:</div>تفضيل Sugammadex وتجنب النيوستيغمين لمنع الأزمة الكولينية.</div>
+    </div>
+
+    <div class="info-card" style="border-top: 4px solid #b71c1c;">
+      <div class="info-title">🔥 7. بروتوكول فرط الحرارة الخبيث (Malignant Hyperthermia Protocol)</div>
+      <div class="proto-box"><div class="proto-phase">• المحفزات الممنوعة:</div>❌ كافة الغازات الاستنشاقية و ❌ Succinylcholine.</div>
+      <div class="proto-box"><div class="proto-phase">• التخدير الآمن:</div>TIVA حصرياً، وغسل العربة بـ 10 L/min أكسجين.</div>
+      <div class="proto-box"><div class="proto-phase">• العلاج:</div>إيقاف الغازات والجراحة، فرط تهوية بـ 100% O2، وحقن <strong>Dantrolene (2.5 mg/kg IV)</strong> فوراً وتبريد المريض وعلاج فرط البوتاسيوم.</div>
+    </div>
+  </div>
+
+  <!-- TAB 3: Obesity & BMI Workstation -->
+  <div id="obesity-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--obesity);">
+      <span class="badge" style="background:#cfd8dc; color:var(--obesity);">حاسبة السمنة وغريدات الـ BMI ومعادلات الأوزان</span>
+      <div class="row-inputs-3" style="margin-top: 8px;">
+        <div><label>الوزن الكلي (TBW kg):</label><input type="number" id="ob-weight" value="120" oninput="calcObesity()"></div>
+        <div><label>الطول (Height cm):</label><input type="number" id="ob-height" value="170" oninput="calcObesity()"></div>
+        <div><label>الجنس:</label><select id="ob-gender" onchange="calcObesity()"><option value="male">ذكر</option><option value="female">أنثى</option></select></div>
+      </div>
+      <div style="background:#edf2f4; border-radius:10px; padding:10px; margin-top:8px; font-size:12px; display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+        <div>مؤشر الـ BMI: <strong id="ob-bmi" style="color:var(--emergency); font-size:14px;">--</strong> <span id="ob-bmi-class" style="font-weight:700;">--</span></div>
+        <div>الوزن المثالي (IBW): <strong id="ob-ibw" style="color:var(--primary); font-size:13px;">-- kg</strong></div>
+        <div>الوزن النحيل (LBW): <strong id="ob-lbw" style="color:var(--secondary); font-size:13px;">-- kg</strong></div>
+        <div>الوزن المعدل (ABW): <strong id="ob-abw" style="color:#2e7d32; font-size:13px;">-- kg</strong></div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-title">📊 تصنيف غريدات السمنة السريري (WHO & ASA)</div>
+      • نقص وزن (&lt;18.5) | طبيعي (18.5-24.9) | زيادة وزن (25-29.9) | سمنة درجة أولى (30-34.9) | سمنة درجة ثانية (35-39.9) | سمنة مفرطة درجة ثالثة (40-49.9) | سمنة فائقة (&ge;50).
+    </div>
+    <div class="dose-grid">
+      <div class="dose-card obesity-card"><div class="dose-header"><span class="drug-name">Propofol (Induction on LBW)</span><span class="drug-spec">2 - 2.5 mg/kg LBW</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="ob-prop-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="ob-prop-cc">--</strong></span></div></div>
+      <div class="dose-card obesity-card"><div class="dose-header"><span class="drug-name">Succinylcholine (on TBW)</span><span class="drug-spec">1.0 mg/kg TBW (Max 200mg)</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="ob-succ-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="ob-succ-cc">--</strong></span></div></div>
+      <div class="dose-card obesity-card"><div class="dose-header"><span class="drug-name">Rocuronium (on IBW)</span><span class="drug-spec">0.6 mg/kg IBW</span></div><div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="ob-roc-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="ob-roc-cc">--</strong></span></div></div>
+      <div class="dose-card obesity-card"><div class="dose-header"><span class="drug-name">Sugammadex (on TBW)</span><span class="drug-spec">2 - 4 mg/kg TBW</span></div><div class="dose-data"><span>جرعة الريفيرسل (2mg/kg): <strong class="data-val mg-color" id="ob-sug-mg">--</strong></span><span>الحجم (100mg/ml): <strong class="data-val vol-color" id="ob-sug-cc">--</strong></span></div></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: Spinal Calculator -->
+  <div id="spinal-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--spinal);">
+      <span class="badge" style="background:#e0f2f1; color:var(--spinal);">حاسبة التخدير النصفي (Heavy Bupivacaine 0.5%)</span>
+      <div class="row-inputs" style="margin-top:8px;">
+        <div><label>نوع العملية:</label>
+          <select id="spinal-op" onchange="calcSpinal()">
+            <option value="cs">قيصرية (C-Section) - الهدف T4</option>
+            <option value="hip">استبدال ورك وفخذ - الهدف T8-T10</option>
+            <option value="knee">تبديل ركبة وساق - الهدف T10</option>
+            <option value="hernia">فتق مغبني وأسفل البطن - الهدف T10</option>
+            <option value="turp">تنظير بروستات ومثانة - الهدف T10</option>
+            <option value="perineal">سادِل بلوك (عجان وبواسير) - الهدف L1</option>
+          </select>
+        </div>
+        <div><label>الجرعة الناتجة بالسيسي:</label><div style="font-size:15px; font-weight:900; color:var(--spinal); padding-top:6px;" id="spinal-vol-res">2.0 cc (10.0 mg)</div></div>
+      </div>
+      <div class="info-body" id="spinal-note" style="font-size:11.5px; margin-top:4px;">المستوى الحسي المستهدف: T4 (حلمة الثدي).</div>
+    </div>
+    <div class="info-card">
+      • Fentanyl شوكي: 15 – 25 mcg (0.3 – 0.5 cc) | Morphine شوكي: 100 mcg.<br>
+      • رافعات الضغط: Phenylephrine 50-100 mcg أو Ephedrine 5-10 mg.
+    </div>
+  </div>
+
+  <!-- TAB 5: Case-Specific Calculator -->
+  <div id="cases-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--diseases);">
+      <span class="badge" style="background:#fbe9e7; color:var(--diseases);">حاسبة الأدوية المخصصة للحالات المرضية لوزن (<span class="current-weight-display">70</span> kg)</span>
+    </div>
+    <div class="dose-grid">
+      <div class="dose-card case-card">
+        <div class="dose-header"><span class="drug-name">تحريض كيس الربو و COPD</span><span class="drug-spec">Bronchodilation</span></div>
+        <div class="dose-data"><span>Ketamine (1.5 mg/kg): <strong class="data-val mg-color" id="cas-ket-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="cas-ket-cc">--</strong></span></div>
+        <div class="dose-data" style="margin-top:4px;"><span>Propofol (1.5 mg/kg): <strong class="data-val mg-color" id="cas-prop-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="cas-prop-cc">--</strong></span></div>
+      </div>
+      <div class="dose-card case-card">
+        <div class="dose-header"><span class="drug-name">كسر التحفيز لمرضى الضغط والقلب</span><span class="drug-spec">Sympathetic Blunting</span></div>
+        <div class="dose-data"><span>Lidocaine 2% (1.5 mg/kg): <strong class="data-val mg-color" id="cas-lido-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="cas-lido-cc">--</strong></span></div>
+        <div class="dose-data" style="margin-top:4px;"><span>Fentanyl (3 mcg/kg): <strong class="data-val mg-color" id="cas-fent-mcg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="cas-fent-cc">--</strong></span></div>
+      </div>
+      <div class="dose-card case-card">
+        <div class="dose-header"><span class="drug-name">التنبيب السريع (RSI) للمعدة الممتلئة</span><span class="drug-spec">Crash Induction</span></div>
+        <div class="dose-data"><span>Succinylcholine (1.5 mg/kg): <strong class="data-val mg-color" id="cas-succ-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="cas-succ-cc">--</strong></span></div>
+        <div class="dose-data" style="margin-top:4px;"><span>أو Roc RSI (1.2 mg/kg): <strong class="data-val mg-color" id="cas-roc-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="cas-roc-cc">--</strong></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 6: Vapors -->
+  <div id="vapors-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid var(--vapors);">
+      <span class="badge" style="background:#f3e5f5; color:var(--vapors);">دليل الغازات والمباخر وقيم الـ MAC</span>
+      • <strong>Sevoflurane:</strong> الـ MAC: 2.0% (غير مخرش، ممتاز للأطفال).<br>
+      • <strong>Desflurane:</strong> الـ MAC: 6.0% (الأقل ذوباناً بالدهون 0.42، مثالي للسمنة).<br>
+      • <strong>Isoflurane:</strong> الـ MAC: 1.15% (اقتصادي وموسع إكليلي).<br>
+      • <strong>N2O:</strong> الـ MAC: 104% (يخفض MAC الغازات بنسبة 50%. ❌ ممنوع في الأجواف المغلقة).
+    </div>
+  </div>
+
+  <!-- TAB 7: ICU Inotropes -->
+  <div id="icu-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--icu);">
+      <span class="badge" style="background:#e8eaf6; color:var(--icu);">مضخات تسريب العناية المركزة لوزن (<span class="current-weight-display">70</span> kg)</span>
+    </div>
+    <div class="dose-grid">
+      <div class="dose-card icu-card">
+        <div class="dose-header"><span class="drug-name">Noradrenaline (4 mg / 50 ml Saline)</span><span class="drug-spec">80 mcg/ml</span></div>
+        <div class="info-body">
+          • الجرعة: 0.05 – 0.5 mcg/kg/min.<br>
+          • سرعة المضخة لبدء (0.1 mcg/kg/min): <strong class="data-val vol-color" id="icu-norad-rate">-- ml/hr</strong>.
+        </div>
+      </div>
+      <div class="dose-card icu-card">
+        <div class="dose-header"><span class="drug-name">Dopamine (200 mg / 50 ml Saline)</span><span class="drug-spec">4000 mcg/ml</span></div>
+        <div class="info-body">
+          • الجرعة: 5 – 15 mcg/kg/min.<br>
+          • سرعة المضخة لجرعة (5 mcg/kg/min): <strong class="data-val vol-color" id="icu-dopa-rate">-- ml/hr</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 8: ABG Analysis -->
+  <div id="abg-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--abg);">
+      <span class="badge" style="background:#e0f2f1; color:var(--abg);">محلل غازات الدم الشرياني (ABG Interpreter)</span>
+      <div class="row-inputs-3" style="margin-top: 8px;">
+        <div><label>pH (7.35-7.45):</label><input type="number" id="abg-ph" value="7.40" step="0.01" oninput="interpretABG()"></div>
+        <div><label>PaCO2 (35-45):</label><input type="number" id="abg-paco2" value="40" oninput="interpretABG()"></div>
+        <div><label>HCO3 (22-26):</label><input type="number" id="abg-hco3" value="24" oninput="interpretABG()"></div>
+      </div>
+      <div style="background:#f0fdf4; border-radius:8px; padding:8px; margin-top:6px;">النتيجة: <strong id="abg-res" class="mg-color">طبيعي تماماً (Normal ABG)</strong></div>
+    </div>
+    <div class="info-card">
+      • لتصحيح $PaCO_2$ المرتفع: ارفع الـ Tidal Volume أو معدل التنفس (RR).<br>
+      • معادلة تعديل الـ RR: $RR_{new} = \frac{RR_{current} \times PaCO_{2(current)}}{PaCO_{2(desired)}}$.
+    </div>
+  </div>
+
+  <!-- TAB 9: LAST -->
+  <div id="last-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid var(--last);">
+      <span class="badge" style="background:#ffebee; color:var(--last);">سمية المخدر الموضعي لوزن (<span class="current-weight-display">70</span> kg)</span>
+      • Lidocaine Plain: Max 4.5 mg/kg $\rightarrow$ <strong id="last-lido-p" class="vol-color">--</strong>.<br>
+      • Lidocaine + Epi: Max 7 mg/kg $\rightarrow$ <strong id="last-lido-e" class="vol-color">--</strong>.<br>
+      • Bupivacaine: Max 2 mg/kg $\rightarrow$ <strong id="last-bupi" class="vol-color">--</strong>.
+    </div>
+    <div class="dose-card emergency">
+      <div class="dose-header"><span class="drug-name">Intralipid 20% Rescue</span><span class="drug-spec">Lipid Sink</span></div>
+      <div class="info-body">
+        • بولس فوري: 1.5 ml/kg = <strong class="vol-color" id="last-lipid-bolus">-- cc</strong>.<br>
+        • تسريب مستمر: 0.25 ml/kg/min = <strong class="mg-color" id="last-lipid-inf">-- ml/hr</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 10: DAS -->
+  <div id="das-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid var(--emergency);">
+      <span class="badge" style="background:#ffebee; color:var(--emergency);">المسالك الهوائية الصعبة (DAS Guidelines)</span>
+      • Plan A: تنبيب بالمنظار الفيديوي + بوجي (أقصى حد: 3 محاولات).<br>
+      • Plan B: تأمين الأكسجين عبر LMA / i-gel (أقصى حد: محاولتان).<br>
+      • Plan C: تهوية بالماسك بواسطة شخصين + Guedel.<br>
+      • Plan D (CICO): إجراء طارئ Scalpel-Bougie-Tube Cricothyroidotomy (مشرط 10، بوجي، تيوب 6.0 mm).
+    </div>
+  </div>
+
+  <!-- TAB 11: Blood & MBL -->
+  <div id="blood-tab" class="tab-content">
+    <div class="patient-selector" style="border-right: 4px solid var(--blood);">
+      <span class="badge" style="background:#fce4ec; color:var(--blood);">حاسبة سقف النزف المسموح به (MBL)</span>
+      <div class="row-inputs-3" style="margin-top: 8px;">
+        <div><label>Hct البدئي (%):</label><input type="number" id="hct-i" value="40" oninput="calcMBL()"></div>
+        <div><label>Hct الأدنى المقبول:</label><input type="number" id="hct-t" value="28" oninput="calcMBL()"></div>
+        <div><label>EBV factor (ml/kg):</label><input type="number" id="ebv-f" value="70" oninput="calcMBL()"></div>
+      </div>
+      <div style="background:#fce4ec; border-radius:8px; padding:8px; font-size:12px; margin-top:6px;">
+        حجم الدم (EBV): <strong id="mbl-ebv-val" class="mg-color">-- ml</strong> | سقف النزف: <strong id="mbl-loss-val" class="vol-color">-- ml</strong>
+      </div>
+    </div>
+    <div class="info-card">
+      • بروتوكول نقل الدم الكثيف: 1 دم حمر : 1 بلازما : 1 صفيحات.<br>
+      • Tranexamic Acid (TXA): 1 g وريدي خلال 10 دقائق ثم 1 g تسريب على 8 ساعات.
+    </div>
+  </div>
+
+  <!-- TAB 12: Specialty -->
+  <div id="specialty-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid var(--neuro);">
+      <div class="info-title">🧠 جراحة الدماغ والأعصاب (Neuroanaesthesia)</div>
+      • $CPP = MAP - ICP$ (&gt; 60 mmHg). خفض الـ ICP: فرط تهوية خفيف ($PaCO_2 = 30-35$), مانيتول 20% (0.5-1 g/kg). ❌ تجنب الكيتامين و N2O.
+    </div>
+    <div class="info-card" style="border-top: 4px solid var(--ob);">
+      <div class="info-title">🤰 العمليات القيصرية والتوليد (C-Section)</div>
+      • إمالة الحوض أيسر 15 درجة. أوكسيتوسين بعد الجنين: 3-5 IU وريدي بطيء ثم تسريب 20-40 IU في 500 cc. ❌ ميثل إرغومترين ممنوع لمريضات الضغط.
+    </div>
+    <div class="info-card" style="border-top: 4px solid var(--lap);">
+      <div class="info-title">🔬 جراحة المنظار (Laparoscopy)</div>
+      • ضغط النفخ: 12 – 15 mmHg. زيادة الـ RR بنسبة 15-20% لطرد CO2 الممتص.
+    </div>
+  </div>
+
+  <!-- TAB 13: Diseases -->
+  <div id="diseases-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid var(--diseases);">
+      <div class="info-title">🩺 مريض ارتفاع ضغط الدم (HTN)</div>
+      • إيقاف أدوية ACEi / ARBs قبل 24 ساعة. ليدوكائين وفنتانيل قبل التنبيب بـ 90 ثانية لكسر الـ Sympathetic response.
+    </div>
+    <div class="info-card" style="border-top: 4px solid var(--emergency);">
+      <div class="info-title">❤️ مريض نقص التروية القلبية وتضيق الأبهر (IHD / AS)</div>
+      • منع تسرع القلب تماماً. تجنب الكيتامين والأتروبين؛ ضبط هبوط الضغط بـ Phenylephrine.
+    </div>
+    <div class="info-card" style="border-top: 4px solid var(--primary);">
+      <div class="info-title">🫁 مريض الربو و COPD</div>
+      • تحريض بكيتامين وبروبوفول وسيفو. ❌ ممنوع أتراكوريوم ومورفين (إفراز هيستامين).
+    </div>
+  </div>
+
+  <!-- TAB 14: Sedation -->
+  <div id="sedation-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid #8e24aa;">
+      <span class="badge" style="background:#f3e5f5; color:#7b1fa2;">جرعات التهدئة لوزن (<span class="current-weight-display">70</span> kg)</span>
+    </div>
+    <div class="dose-grid">
+      <div class="dose-card sedation">
+        <div class="dose-header"><span class="drug-name">Midazolam (0.03 mg/kg)</span><span class="drug-spec">1 mg/ml</span></div>
+        <div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="sed-mida-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="sed-mida-cc">--</strong></span></div>
+      </div>
+      <div class="dose-card sedation">
+        <div class="dose-header"><span class="drug-name">Propofol Bolus (0.5 mg/kg)</span><span class="drug-spec">10 mg/ml</span></div>
+        <div class="dose-data"><span>الجرعة: <strong class="data-val mg-color" id="sed-prop-mg">--</strong></span><span>الحجم: <strong class="data-val vol-color" id="sed-prop-cc">--</strong></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 15: Pediatrics -->
+  <div id="ped-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid var(--pediatric);">
+      <div class="info-title">👶 الأطفال والرضع وحديثو الولادة</div>
+      • ETT دون كف: (العمر ÷ 4) + 4 | بكف: (العمر ÷ 4) + 3.5.<br>
+      • حديثو الولادة: شفرة ميلر مستقيمة 0 أو 1 | أنبوب 3.0 – 3.5 mm عند عمق 9 cm.<br>
+      • Atropine: 0.02 mg/kg (يحلل 1mg بـ 9cc سالاين = 0.1 mg/ml).<br>
+      • Succinylcholine للرضع: 2 mg/kg IV.
+    </div>
+  </div>
+
+  <!-- TAB 16: Airway -->
+  <div id="airway-tab" class="tab-content">
+    <div class="info-card">
+      <div class="info-title">معادلات الأنبوب الرغامي والـ LMA</div>
+      • عمق التثبيت عند الشفة: (العمر ÷ 2) + 12 (أو حجم التيوب × 3).<br>
+      • البالغين: إناث (7.0 - 7.5 mm) | ذكور (7.5 - 8.5 mm).<br>
+      • أحجام LMA: 1 (&lt;5kg), 1.5 (5-10kg), 2 (10-20kg), 2.5 (20-30kg), 3 (30-50kg), 4 (50-70kg), 5 (&gt;70kg).
+    </div>
+  </div>
+
+  <!-- TAB 17: Fluids -->
+  <div id="fluid-tab" class="tab-content">
+    <div class="info-card">
+      <div class="info-title">حساب سوائل الإدامة الوريدية (4-2-1 Rule)</div>
+      • أول 10 kg: 4 ml/kg/hr | ثاني 10 kg: 2 ml/kg/hr | ما زاد: 1 ml/kg/hr.<br>
+      <div style="background:#f0f7f7; padding:8px; border-radius:6px; margin-top:6px;">
+        معدل الإدامة للوزن الحالي (<span id="fluid-weight-lbl">70</span> kg): <strong id="fluid-rate-res" class="mg-color">-- ml/hr</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 19: Machine Prep -->
+  <div id="prep-tab" class="tab-content">
+    <div class="info-card" style="border-top: 4px solid var(--accent);">
+      <div class="info-title">📋 خطة فحص الصباح اليومي (MSMAID Checklist)</div>
+      • <strong>M (Machine):</strong> فحص تسريب الدائرة، حساس O2، وصودا لايم.<br>
+      • <strong>S (Suction):</strong> قوة الشفاط وجاهزية قسطرة يانكوير.<br>
+      • <strong>M (Monitors):</strong> ECG, NIBP, SpO2, EtCO2, Temp.<br>
+      • <strong>A (Airway):</strong> مناظير شغالة، تيوبات بقياسين، وبوجي.<br>
+      • <strong>I (IV Access):</strong> كانيولات ومغذيات وسيرومات سالكة.<br>
+      • <strong>D (Drugs):</strong> أدوية التنويم والرخاوة والمسكنات والطوارئ موسومة.
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    Clinical Anesthesia & ICU Workstation • Developed By: Komail Nabeel / B.M.T Of Anesthesia & ICU
+  </footer>
+
+</div>
+
+<script>
+  function openTab(evt, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    evt.currentTarget.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  function syncAgeWeight() {
+    const cat = document.getElementById('age-category').value;
+    const wInput = document.getElementById('main-weight');
+    if (cat === 'neonate') wInput.value = 3.5;
+    else if (cat === 'infant') wInput.value = 8;
+    else if (cat === 'child') wInput.value = 20;
+    else wInput.value = 70;
+    runCalculations();
+  }
+
+  // ----------------- المحرك التفاعلي لخطة المرض (Case Decision Engine) -----------------
+  function generateClinicalPlan() {
+    const w = parseFloat(document.getElementById('gen-weight').value) || 70;
+    const dis = document.getElementById('gen-disease').value;
+
+    let indHTML = "";
+    let maintHTML = "";
+    let recHTML = "";
+    let contraHTML = "";
+
+    if (dis === 'asthma') {
+      const ketMg = (w * 1.5).toFixed(0);
+      const ketCc = (ketMg / 50).toFixed(2);
+      const propMg = (w * 1.5).toFixed(0);
+      const propCc = (propMg / 10).toFixed(1);
+      const rocMg = (w * 0.6).toFixed(1);
+      const rocCc = (rocMg / 10).toFixed(1);
+
+      indHTML = `• <strong>الأدوية المفضلة (توسيع قصبات):</strong> Pre-oxygenation بـ 100% O2.<br>
+                 • <strong>Ketamine:</strong> ${ketMg} mg (${ketCc} cc) أو <strong>Propofol:</strong> ${propMg} mg (${propCc} cc) لتثبيط منعكسات الحنجرة.<br>
+                 • <strong>Rocuronium:</strong> ${rocMg} mg (${rocCc} cc) كمرخي عضلي آمن.<br>
+                 • إعطاء 6-8 بخات Salbutamol عبر الأنبوب + Hydrocortisone 100 mg IV فور التنبيب.`;
+      maintHTML = `• <strong>الغاز المفضل:</strong> Sevoflurane (2.0 - 2.5%) لخاصيته القوية في إرخاء القصبات.<br>
+                   • <strong>ضبط جهاز التنفس:</strong> خفض معدل التنفس (RR: 8-10)، وإطالة زمن الزفير (I:E = 1:3 أو 1:4) لمنع احتباس الهواء (Auto-PEEP).<br>
+                   • توب-أب فنتانيل كافٍ لمنع السعال أثناء الجراحة.`;
+      recHTML = `• <strong>الإفاقة العميقة (Deep Extubation)</strong> إذا لم يكن المريض معرضاً للاستنشاق لتجنب تشنج القصبات عند سحب التيوب، أو سحب التيوب بعد إعطاء Lidocaine 1.5 mg/kg IV بـ 2 دقيقة.<br>
+                 • إنهاء الإرخاء بـ Sugammadex إن أمكن أو Neostigmine + Atropine.`;
+      contraHTML = `❌ <strong>Atracurium & Morphine:</strong> ممنوعان منعاً باتاً لإفرازهما الهيستامين المحفز لتشنج قصبي حاد.<br>
+                    ❌ <strong>Desflurane:</strong> ممنوع للتحريض لخاصيته المخرشة للمجاري التنفسية.`;
+    } 
+    else if (dis === 'copd') {
+      indHTML = `• <strong>التحريض:</strong> Propofol بجرعة معدلة مع Fentanyl (1.5 mcg/kg) وروكورونيوم.<br>
+                 • تفضيل القناع الحنجري (LMA) على الأنبوب الرغامي في العمليات القصيرة لتفادي التخريش الحنجري.`;
+      maintHTML = `• <strong>التهوية:</strong> هدف التشبع SpO2 بين <strong>88% - 92%</strong> لتفادي إيقاف التنبيه التنفسي بنقص الأكسجة (Hypoxic Drive).<br>
+                   • نسبة زفير طويلة (I:E = 1:3) وضبط PEEP منخفض (3-4 cmH2O) لتجنب استرواح الصدر الضاغط.`;
+      recHTML = `• تفضيل الفطام السريع، والإفاقة بوضعية الجلوس (Semi-sitting) لتحسين حركة الحجاب الحاجز.<br>
+                 • تجنب الأفيونات المديدة التي قد تسبب تثبيطاً تنفسياً متأخراً في الردهة.`;
+      contraHTML = `❌ الأكسجة المفرطة غير المبررة (FiO2 100% مستمر دون داعٍ).<br>
+                    ❌ أدوية إفراز الهيستامين (Atracurium / Morphine).`;
+    }
+    else if (dis === 'htn') {
+      const lidoMg = (w * 1.5).toFixed(0);
+      const lidoCc = (lidoMg / 20).toFixed(1);
+      const fentMcg = (w * 3.0).toFixed(0);
+      const fentCc = (fentMcg / 50).toFixed(1);
+
+      indHTML = `• <strong>كسر الاستجابة الودية (Blunting):</strong> حقن <strong>Lidocaine 2%:</strong> ${lidoMg} mg (${lidoCc} cc) و <strong>Fentanyl:</strong> ${fentMcg} mcg (${fentCc} cc) قبل التنبيب بـ 90 ثانية لمنع ارتفاع الضغط الحاد.<br>
+                 • تحريض هادئ بـ Propofol (1.5-2 mg/kg) وروكورونيوم.`;
+      maintHTML = `• الحفاظ على الضغط الشرياني الوسطي ضمن نطاق 20% من الضغط المعتاد للمريض.<br>
+                   • إدامة بسيفوفلوران مع فنتانيل متكرر؛ ضبط هبوط الضغط بواسطة <strong>Phenylephrine</strong> إذا كان النبض سريعاً.`;
+      recHTML = `• سحب الأنبوب الرغامي بهدوء؛ حقن ليدوكائين 1 mg/kg أو إسمولول قبل النزع لمنع نوبات ارتفاع الضغط الفجائي الناتجة عن تخريش التيوب.`;
+      contraHTML = `❌ <strong>Ketamine:</strong> يرفع الضغط والنبض واستهلاك الأكسجين.<br>
+                    ❌ عدم إيقاف أدوية ACEi / ARBs قبل 24 ساعة (يؤدي لهبوط ضغط وعائي معند).`;
+    }
+    else if (dis === 'ihd') {
+      indHTML = `• <strong>الهدف:</strong> منع تسرع القلب (Tachycardia) لمنع نقص تروية العضلة القلبية.<br>
+                 • التحريض بـ Etomidate (0.2-0.3 mg/kg) أو بروبوفول محسوب بدقة مع فنتانيل (2-3 mcg/kg) وروكورونيوم.`;
+      maintHTML = `• إدامة بـ Sevoflurane أو Isoflurane مع الحفاظ على ضغط انبساطي كافٍ لتروية الشرايين التاجية.<br>
+                   • علاج تسرع القلب فوراً بـ Esmolol، وعلاج هبوط الضغط بـ Phenylephrine (تجنب الإفدرين لأنه يسرع القلب).`;
+      recHTML = `• إفاقة خالية من الألم والرجفان (Shivering) لتجنب رفع استهلاك الأكسجين بنسبة 300%؛ تدفئة المريض وإعطاء مسكنات كافية.`;
+      contraHTML = `❌ <strong>Ketamine & Atropine & Pancuronium:</strong> تسبب تسرع قلب حاد يهدد باحتشاء عضلة القلب.`;
+    }
+    else if (dis === 'hf') {
+      const etoMg = (w * 0.25).toFixed(1);
+      indHTML = `• <span class="proto-safe">الخيار الأول:</span> <strong>Etomidate:</strong> ${etoMg} mg IV لثباته التام على النتاج القلبي ومقاومة الأوعية.<br>
+                 • ركود فنتانيل وتجنب البروبوفول الصريح. روكورونيوم للإرخاء.`;
+      maintHTML = `• تركيز منخفض من سيفوفلوران مدعماً بتسريب أفيوني (TIVA/Remifentanil).<br>
+                   • تجهيز رافعات الانقباضية (Dobutamine / Noradrenaline). تقنين السوائل الوريدية بصرامة لمنع الوذمة الرئوية.`;
+      recHTML = `• إفاقة في العناية المركزة أو إرجاع الإرخاء بواسطة <strong>Sugammadex</strong> لتجنب التأثيرات القلبية للنيوستيغمين والأتروبين.`;
+      contraHTML = `❌ <strong>Propofol بجرعة كاملة:</strong> يثبط انقباضية البطين الأيسر بشدة.<br>
+                    ❌ التحميل العنيف بالسوائل الوريدية (Fluid Overload).`;
+    }
+    else if (dis === 'renal') {
+      const atraMg = (w * 0.5).toFixed(1);
+      const atraCc = (atraMg / 10).toFixed(1);
+      indHTML = `• التحريض بـ Propofol محسوب.<br>
+                 • <span class="proto-safe">المرخي العضلي الإلزامي:</span> <strong>Atracurium:</strong> ${atraMg} mg (${atraCc} cc) أو Cisatracurium (استقلاب هيدروليكي مستقل عن الكلى).`;
+      maintHTML = `• سيفوفلوران أو ديزفلوران.<br>
+                   • إعطاء Normal Saline 0.9% حصراً. حماية ناسور الغسيل (Fistula) بمنع قياس الضغط أو الكانيولا في ذراعه.`;
+      recHTML = `• التأكد من استعادة قوة العضلات قبل نزع التيوب؛ إنهاء الإرخاء بـ Neostigmine + Atropine بعد التأكد من عودة التنفس.`;
+      contraHTML = `❌ <strong>Succinylcholine:</strong> ممنوع منعاً باتاً (يرفع البوتاسيوم ويسبب توقف قلب).<br>
+                    ❌ <strong>Ringer Lactate:</strong> لاحتوائه على بوتاسيوم، وممنوع أدوية NSAIDs (بروفين/فولتارين).`;
+    }
+    else if (dis === 'liver') {
+      indHTML = `• فحص التخثر والصفائح. تحريض بجرعة مخفضة من البروبوفول مع فنتانيل وروكورونيوم أو أتراكوريوم.`;
+      maintHTML = `• Isoflurane للمحافظة على تدفق الدم بالشريان الكبدي. الحفاظ على ضغط وسطي $MAP > 65\text{ mmHg}$ ومراقبة السكر لتفادي الهبوط.`;
+      recHTML = `• تفضيل نزع التيوب بعد التيقن من الوعي لتجنب الغيبوبة الكبدية؛ مراقبة النزف المستمر.`;
+      contraHTML = `❌ المهدئات المديدة والجرعات العالية من البنزوديازيبين (تراكم كبدي).`;
+    }
+    else if (dis === 'epilepsy') {
+      const thioMg = (w * 4.0).toFixed(0);
+      const thioCc = (thioMg / 25).toFixed(1);
+      indHTML = `• <strong>الأدوية المفضلة (مضادة للصرع):</strong> <strong>Thiopental 2.5%:</strong> ${thioMg} mg (${thioCc} cc) أو <strong>Propofol:</strong> 2 mg/kg.<br>
+                 • إضافة Midazolam 1-2 mg وريدي لتثبيط بؤر التشنج.`;
+      maintHTML = `• Isoflurane أو Sevoflurane مع تسريب ريميفنتانيل أو فنتانيل متكرر.`;
+      recHTML = `• إفاقة هادئة؛ التأكد من عدم حدوث اختلاجات خفية بعد العملية ومراقبة تخطيط الدماغ/العلامات.`;
+      contraHTML = `❌ <strong>Ketamine & Enflurane:</strong> تزيد الشحنات الكهربائية الدماغية وتخفض عتبة الصرع.<br>
+                    ❌ <strong>Tramadol & Pethidine:</strong> محفزة للتشنجات.`;
+    }
+    else if (dis === 'obese') {
+      indHTML = `• وضعية المنحدر (Ramped Position). أكسجة مسبقة ممتازة مع CPAP.<br>
+                 • <strong>Propofol:</strong> يُحسب على الوزن النحيل (LBW) لمنع هبوط الضغط.<br>
+                 • <strong>Succinylcholine:</strong> يُحسب على الوزن الكلي (TBW 1 mg/kg) لزيادة إنزيم البلازما كولينستريز.`;
+      maintHTML = `• <span class="proto-safe">الغاز الذهبي:</span> <strong>Desflurane</strong> لعدم ذوبانه بالدهون وسرعة الإفاقة.<br>
+                   • تهوية ميكانيكية بـ PEEP كافٍ (8-10 cmH2O) ومناورات فتح الحويصلات.`;
+      recHTML = `• إرجاع الإرخاء بـ <strong>Sugammadex</strong> (على الوزن الكلي TBW 2-4 mg/kg).<br>
+                 • نزع الأنبوب في وضعية الجلوس الكامل (Fully Awake & Sitting).`;
+      contraHTML = `❌ إعطاء المرخيات غير النازعة للاستقطاب على الوزن الكلي (يسبب شللاً مديداً).<br>
+                    ❌ نزع التيوب والمريض مستلقٍ على ظهره أو غير واعي تماماً.`;
+    }
+    else if (dis === 'full_stomach') {
+      const succMg = (w * 1.5).toFixed(0);
+      const succCc = (succMg / 50).toFixed(2);
+      const rocRsiMg = (w * 1.2).toFixed(1);
+      const rocRsiCc = (rocRsiMg / 10).toFixed(1);
+      indHTML = `• <strong>بروتوكول التحريض السريع (RSI):</strong> Pre-oxygenation بـ 100% O2 لمدة 3-5 دقائق.<br>
+                 • حقن المنوم (Propofol أو Ketamine) متبوعاً فوراً بـ:<br>
+                 &nbsp;&nbsp;- <strong>Succinylcholine:</strong> ${succMg} mg (${succCc} cc) أو <strong>Rocuronium RSI:</strong> ${rocRsiMg} mg (${rocRsiCc} cc).<br>
+                 • <strong>ممنوع إعطاء تهوية بالماسك (No Mask Ventilation)</strong> نهائياً لتفادي نفخ المعدة.<br>
+                 • إدخال أنبوب رغامي بكف ونفخه فوراً والتأكد قبل البدء بالتهوية.`;
+      maintHTML = `• إدامة قياسية بالغاز والمسكنات، مع وضع أنبوب معدي (NG Tube) لشفط وتفريغ محتويات المعدة أثناء الجراحة.`;
+      recHTML = `• <strong>نزع الأنبوب حصراً بعد الاستيقاظ التام (Fully Awake Extubation):</strong> استعادة كامل المنعكسات الحنجرية والبلع والسعال وفتح العينين لتجنب الاستنشاق الرئوي (Mendelson's Syndrome).`;
+      contraHTML = `❌ التهوية بالضغط الإيجابي بالماسك قبل التنبيب.<br>
+                    ❌ نزع الأنبوب على عمق تخديري (Deep Extubation).`;
+    }
+    else {
+      // Healthy (ASA I)
+      const propMg = (w * 2.0).toFixed(0);
+      const propCc = (propMg / 10).toFixed(1);
+      const rocMg = (w * 0.6).toFixed(1);
+      const rocCc = (rocMg / 10).toFixed(1);
+      indHTML = `• Pre-oxygenation بـ 100% O2 لمدة 3 دقائق.<br>
+                 • Fentanyl: ${(w * 1.5).toFixed(0)} mcg وريدي.<br>
+                 • Propofol: ${propMg} mg (${propCc} cc).<br>
+                 • Rocuronium: ${rocMg} mg (${rocCc} cc) أو Atracurium: ${(w * 0.5).toFixed(1)} mg.`;
+      maintHTML = `• Sevoflurane (1.5 - 2.0%) في مزيج O2/Air.<br>
+                   • توب-أب فنتانيل (0.5 mcg/kg) كل 45 دقيقة، وتوب-أب روكورونيوم (0.15 mg/kg) كل 30 دقيقة.`;
+      recHTML = `• إيقاف الغاز قبل نهاية الجراحة بدقائق، أكسجين 100%.<br>
+                 • Neostigmine 0.05 mg/kg + Atropine 0.02 mg/kg أو Sugammadex 2 mg/kg.<br>
+                 • سحب الأنبوب بعد فتح العينين والتنفس التلقائي المنتظم.`;
+      contraHTML = `• لا توجد موانع مطلقة؛ الالتزام بالجرعات الدقيقة ومراقبة العلامات الحيوية.`;
+    }
+
+    document.getElementById('plan-ind-content').innerHTML = indHTML;
+    document.getElementById('plan-maint-content').innerHTML = maintHTML;
+    document.getElementById('plan-rec-content').innerHTML = recHTML;
+    document.getElementById('plan-contra-content').innerHTML = contraHTML;
+  }
+
+  function calcObesity() {
+    const w = parseFloat(document.getElementById('ob-weight').value) || 0;
+    const h = parseFloat(document.getElementById('ob-height').value) || 0;
+    const g = document.getElementById('ob-gender').value;
+    if (h <= 0 || w <= 0) return;
+
+    const hm = h / 100.0;
+    const bmi = w / (hm * hm);
+    document.getElementById('ob-bmi').innerText = bmi.toFixed(1);
+
+    let bmiClass = "";
+    if (bmi < 18.5) bmiClass = "(نقص وزن Underweight)";
+    else if (bmi < 25) bmiClass = "(طبيعي Normal)";
+    else if (bmi < 30) bmiClass = "(زيادة وزن Overweight)";
+    else if (bmi < 35) bmiClass = "(سمنة درجة أولى Class I)";
+    else if (bmi < 40) bmiClass = "(سمنة درجة ثانية Class II)";
+    else if (bmi < 50) bmiClass = "(سمنة مفرطة Class III Morbid)";
+    else bmiClass = "(سمنة فائقة Super Obesity)";
+    document.getElementById('ob-bmi-class').innerText = bmiClass;
+
+    const hi = h / 2.54;
+    const over60 = Math.max(0, hi - 60);
+    let ibw = 50.0 + (2.3 * over60);
+    if (g === 'female') ibw = 45.5 + (2.3 * over60);
+    document.getElementById('ob-ibw').innerText = ibw.toFixed(1) + ' kg';
+
+    let lbw = (9270 * w) / (6680 + (216 * bmi));
+    if (g === 'female') lbw = (9270 * w) / (8780 + (244 * bmi));
+    document.getElementById('ob-lbw').innerText = lbw.toFixed(1) + ' kg';
+
+    const abw = ibw + (0.4 * Math.max(0, w - ibw));
+    document.getElementById('ob-abw').innerText = abw.toFixed(1) + ' kg';
+
+    const obProp = lbw * 2.0;
+    document.getElementById('ob-prop-mg').innerText = obProp.toFixed(0) + ' mg';
+    document.getElementById('ob-prop-cc').innerText = (obProp / 10).toFixed(1) + ' cc';
+
+    const obSucc = Math.min(200, w * 1.0);
+    document.getElementById('ob-succ-mg').innerText = obSucc.toFixed(0) + ' mg';
+    document.getElementById('ob-succ-cc').innerText = (obSucc / 50).toFixed(1) + ' cc';
+
+    const obRoc = ibw * 0.6;
+    document.getElementById('ob-roc-mg').innerText = obRoc.toFixed(1) + ' mg';
+    document.getElementById('ob-roc-cc').innerText = (obRoc / 10).toFixed(1) + ' cc';
+
+    const obSug = w * 2.0;
+    document.getElementById('ob-sug-mg').innerText = obSug.toFixed(0) + ' mg';
+    document.getElementById('ob-sug-cc').innerText = (obSug / 100).toFixed(1) + ' cc';
+  }
+
+  function calcSpinal() {
+    const op = document.getElementById('spinal-op').value;
+    let vol = "2.0 cc (10 mg)";
+    let note = "";
+    if (op === 'cs') { vol = "2.0 – 2.2 cc (10-11 mg)"; note = "المستوى الحسي المستهدف: T4 (حلمة الثدي)."; }
+    else if (op === 'hip') { vol = "2.5 cc (12.5 mg)"; note = "المستوى الحسي المستهدف: T8-T10."; }
+    else if (op === 'knee') { vol = "2.4 cc (12 mg)"; note = "المستوى الحسي المستهدف: T10 (السرة)."; }
+    else if (op === 'hernia') { vol = "2.2 cc (11 mg)"; note = "المستوى الحسي المستهدف: T10."; }
+    else if (op === 'turp') { vol = "1.5 cc (7.5 mg)"; note = "المستوى الحسي المستهدف: T10 بدقة."; }
+    else if (op === 'perineal') { vol = "1.2 cc (6 mg)"; note = "المستوى الحسي المستهدف: L1-S5 (سادل بلوك)."; }
+    document.getElementById('spinal-vol-res').innerText = vol;
+    document.getElementById('spinal-note').innerText = note;
+  }
+
+  function interpretABG() {
+    const ph = parseFloat(document.getElementById('abg-ph').value) || 7.4;
+    const paco2 = parseFloat(document.getElementById('abg-paco2').value) || 40;
+    const hco3 = parseFloat(document.getElementById('abg-hco3').value) || 24;
+    let res = "";
+    if (ph < 7.35) {
+      if (paco2 > 45 && hco3 < 22) res = "حماض مختلط استقلابي وتنفسي";
+      else if (paco2 > 45) res = "حماض تنفسي (Respiratory Acidosis)";
+      else if (hco3 < 22) res = "حماض استقلابي (Metabolic Acidosis)";
+      else res = "حماض غير محدد";
+    } else if (ph > 7.45) {
+      if (paco2 < 35 && hco3 > 26) res = "قلاء مختلط استقلابي وتنفسي";
+      else if (paco2 < 35) res = "قلاء تنفسي (Respiratory Alkalosis)";
+      else if (hco3 > 26) res = "قلاء استقلابي (Metabolic Alkalosis)";
+      else res = "قلاء غير محدد";
+    } else {
+      res = (paco2 !== 40 || hco3 !== 24) ? "غازات دم معاوضة بالكامل" : "طبيعي تماماً (Normal ABG)";
+    }
+    document.getElementById('abg-res').innerText = res;
+  }
+
+  function calcMBL() {
+    const w = parseFloat(document.getElementById('main-weight').value) || 70;
+    const hi = parseFloat(document.getElementById('hct-i').value) || 40;
+    const ht = parseFloat(document.getElementById('hct-t').value) || 28;
+    const f = parseFloat(document.getElementById('ebv-f').value) || 70;
+    const ebv = w * f;
+    const ha = (hi + ht) / 2.0;
+    let mbl = 0;
+    if (ha > 0) mbl = ebv * ((hi - ht) / ha);
+    document.getElementById('mbl-ebv-val').innerText = ebv.toFixed(0) + ' ml';
+    document.getElementById('mbl-loss-val').innerText = Math.max(0, mbl).toFixed(0) + ' ml';
+  }
+
+  function runCalculations() {
+    const w = parseFloat(document.getElementById('main-weight').value) || 0;
+    document.querySelectorAll('.current-weight-display').forEach(el => el.innerText = w);
+
+    // Induction
+    const pMg = w * 2; document.getElementById('prop-mg').innerText = pMg.toFixed(0) + ' mg'; document.getElementById('prop-cc').innerText = (pMg / 10).toFixed(1) + ' cc';
+    const kMg = w * 1.5; document.getElementById('ket-mg').innerText = kMg.toFixed(0) + ' mg'; document.getElementById('ket-cc').innerText = (kMg / 50).toFixed(2) + ' cc';
+    const rMg = w * 0.6; document.getElementById('roc-mg').innerText = rMg.toFixed(1) + ' mg'; document.getElementById('roc-cc').innerText = (rMg / 10).toFixed(1) + ' cc';
+    const aMg = w * 0.5; document.getElementById('atra-mg').innerText = aMg.toFixed(1) + ' mg'; document.getElementById('atra-cc').innerText = (aMg / 10).toFixed(1) + ' cc';
+    const sMg = w * 1.5; document.getElementById('succ-mg').innerText = sMg.toFixed(0) + ' mg'; document.getElementById('succ-cc').innerText = (sMg / 50).toFixed(2) + ' cc';
+    const fMcg = w * 1.5; document.getElementById('fent-mcg').innerText = fMcg.toFixed(0) + ' mcg'; document.getElementById('fent-cc').innerText = (fMcg / 50).toFixed(1) + ' cc';
+
+    // Emergency Calculations
+    const adPedsMg = w * 0.01;
+    document.getElementById('emg-adren-peds').innerText = (w * 10).toFixed(0) + ' mcg (' + (adPedsMg / 0.1).toFixed(1) + ' cc من 1:10,000)';
+
+    const pSpasmMg = w * 0.35;
+    document.getElementById('emg-prop-spasm').innerText = (pSpasmMg / 10).toFixed(1) + ' cc (' + pSpasmMg.toFixed(0) + ' mg)';
+
+    const sSpasmMg = w * 0.5;
+    document.getElementById('emg-succ-spasm').innerText = (sSpasmMg / 50).toFixed(2) + ' cc (' + sSpasmMg.toFixed(0) + ' mg)';
+
+    // Maintenance Master Calculations
+    const maintPropMgHr = w * 6;
+    document.getElementById('maint-prop-mg').innerText = maintPropMgHr.toFixed(0) + ' mg/hr';
+    document.getElementById('maint-prop-rate').innerText = (maintPropMgHr / 10).toFixed(1) + ' ml/hr';
+
+    const maintDexMcgHr = w * 0.4;
+    document.getElementById('maint-dex-mcg').innerText = maintDexMcgHr.toFixed(1) + ' mcg/hr';
+    document.getElementById('maint-dex-rate').innerText = (maintDexMcgHr / 4).toFixed(1) + ' ml/hr';
+
+    const maintFentMcg = w * 0.75;
+    document.getElementById('maint-fent-mcg').innerText = maintFentMcg.toFixed(0) + ' mcg';
+    document.getElementById('maint-fent-cc').innerText = (maintFentMcg / 50).toFixed(1) + ' cc';
+
+    const maintRemiMin = w * 0.15;
+    document.getElementById('maint-remi-mcg').innerText = maintRemiMin.toFixed(1) + ' mcg/min';
+    document.getElementById('maint-remi-rate').innerText = ((maintRemiMin * 60) / 50).toFixed(1) + ' ml/hr';
+
+    const maintMorph = w * 0.1;
+    document.getElementById('maint-morph-mg').innerText = maintMorph.toFixed(1) + ' mg';
+    document.getElementById('maint-morph-cc').innerText = maintMorph.toFixed(1) + ' cc';
+
+    const maintKet = w * 0.25;
+    document.getElementById('maint-ket-mg').innerText = maintKet.toFixed(1) + ' mg';
+    document.getElementById('maint-ket-cc').innerText = (maintKet / 50).toFixed(2) + ' cc';
+
+    const mr = w * 0.15; document.getElementById('maint-roc-mg').innerText = mr.toFixed(1) + ' mg'; document.getElementById('maint-roc-cc').innerText = (mr / 10).toFixed(1) + ' cc';
+    const ma = w * 0.1; document.getElementById('maint-atra-mg').innerText = ma.toFixed(1) + ' mg'; document.getElementById('maint-atra-cc').innerText = (ma / 10).toFixed(1) + ' cc';
+    const mc = w * 0.03; document.getElementById('maint-cis-mg').innerText = mc.toFixed(2) + ' mg'; document.getElementById('maint-cis-cc').innerText = (mc / 2).toFixed(1) + ' cc';
+    const mv = w * 0.02; document.getElementById('maint-vec-mg').innerText = mv.toFixed(2) + ' mg'; document.getElementById('maint-vec-cc').innerText = (mv / 1).toFixed(1) + ' cc';
+
+    // Cases
+    const cKet = w * 1.5; document.getElementById('cas-ket-mg').innerText = cKet.toFixed(0) + ' mg'; document.getElementById('cas-ket-cc').innerText = (cKet / 50).toFixed(2) + ' cc';
+    const cProp = w * 1.5; document.getElementById('cas-prop-mg').innerText = cProp.toFixed(0) + ' mg'; document.getElementById('cas-prop-cc').innerText = (cProp / 10).toFixed(1) + ' cc';
+    const cLido = w * 1.5; document.getElementById('cas-lido-mg').innerText = cLido.toFixed(0) + ' mg'; document.getElementById('cas-lido-cc').innerText = (cLido / 20).toFixed(1) + ' cc';
+    const cFent = w * 3.0; document.getElementById('cas-fent-mcg').innerText = cFent.toFixed(0) + ' mcg'; document.getElementById('cas-fent-cc').innerText = (cFent / 50).toFixed(1) + ' cc';
+    const cSucc = w * 1.5; document.getElementById('cas-succ-mg').innerText = cSucc.toFixed(0) + ' mg'; document.getElementById('cas-succ-cc').innerText = (cSucc / 50).toFixed(2) + ' cc';
+    const cRoc = w * 1.2; document.getElementById('cas-roc-mg').innerText = cRoc.toFixed(1) + ' mg'; document.getElementById('cas-roc-cc').innerText = (cRoc / 10).toFixed(1) + ' cc';
+
+    // ICU Inotropes
+    document.getElementById('icu-norad-rate').innerText = ((w * 0.1 * 60) / 80).toFixed(1) + ' ml/hr';
+    document.getElementById('icu-dopa-rate').innerText = ((w * 5 * 60) / 4000).toFixed(1) + ' ml/hr';
+
+    // LAST
+    const lp = Math.min(300, w * 4.5); document.getElementById('last-lido-p').innerText = lp.toFixed(0) + ' mg (' + (lp/20).toFixed(1) + ' cc)';
+    const le = Math.min(500, w * 7.0); document.getElementById('last-lido-e').innerText = le.toFixed(0) + ' mg (' + (le/20).toFixed(1) + ' cc)';
+    const bp = Math.min(150, w * 2.0); document.getElementById('last-bupi').innerText = bp.toFixed(0) + ' mg (' + (bp/5).toFixed(1) + ' cc)';
+    document.getElementById('last-lipid-bolus').innerText = (w * 1.5).toFixed(0) + ' cc';
+    document.getElementById('last-lipid-inf').innerText = (w * 0.25 * 60).toFixed(0) + ' ml/hr';
+
+    // Sedation
+    const sm = w * 0.03; document.getElementById('sed-mida-mg').innerText = sm.toFixed(1) + ' mg'; document.getElementById('sed-mida-cc').innerText = sm.toFixed(1) + ' cc';
+    const sp = w * 0.5; document.getElementById('sed-prop-mg').innerText = sp.toFixed(0) + ' mg'; document.getElementById('sed-prop-cc').innerText = (sp / 10).toFixed(1) + ' cc';
+
+    // Fluids (4-2-1)
+    let fr = 0;
+    if (w <= 10) fr = w * 4;
+    else if (w <= 20) fr = 40 + ((w - 10) * 2);
+    else fr = 60 + ((w - 20) * 1);
+    document.getElementById('fluid-rate-res').innerText = fr.toFixed(0) + ' ml/hr';
+    document.getElementById('fluid-weight-lbl').innerText = w;
+
+    calcMBL();
+    calcObesity();
+    generateClinicalPlan();
+  }
+
+  runCalculations();
+  calcSpinal();
+</script>
+
+</body>
+</html>
